@@ -1,2 +1,3 @@
 # banquet
-A LaTeX class for restaurant menus.
+
+Create restaurant menus while decoupling style and content.
