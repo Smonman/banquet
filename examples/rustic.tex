@@ -1,0 +1,113 @@
+\documentclass{../banquet}
+
+\selectlanguage{naustrian}
+\sisetup{locale=DE}
+
+\bqset[
+	restaurant={Die Wirtschaft},
+	title={\bqrestaurant},
+	price/currency symbol={\euro},
+	price/currency symbol/show=true,
+	badge/show=true
+]
+
+\begin{document}
+\maketitle
+
+\section{Suppen}
+
+\dish[%
+	name={Frittatensuppe},
+	price={4.30},
+	allergens={A,C}
+]
+
+\dish[%
+	name={Knoblauchcremesuppe},
+	price={4.90},
+	allergens={A,G}
+]
+
+\dish[%
+	name={Gulaschsuppe},
+	ingredients={mit Gebäck},
+	price={5.50},
+	allergens={A}
+]
+
+\section{Unsere Schmankerl}
+
+\dish[%
+	name={Wiener Schnitzel},
+	ingredients={vom Kalb,Preiselbeeren,Erdäpfelsalat},
+	allergens={A,C,G},
+	badge/organic=true,
+	price={15.20}
+]
+
+\dish[%
+	name={Schnitzel Wiener Art},
+	ingredients={vom Schwein,Erdäpfelsalat},
+	allergens={A,C,G},
+	price={12.90}
+]
+
+\section{Für den kleinen Hunger}
+
+\dish[%
+	name={Frankfurter mit Gebäck},
+	ingredients={mit Senf,Ketchup,Kren},
+	allergens={L,M},
+	price={8.20}
+]
+
+\dish[%
+	name={Schinken-Käse-Toast},
+	ingredients={Schinken,Käse,Zwiebeln},
+	allergens={A,C,G},
+	price={4.90}
+]
+
+\section{Getränke}
+
+\dish[%
+	name={Coca Cola},
+	price={3.90},
+	serving size/show=true,
+	serving size={0.5},
+	serving size/unit={\litre}
+]
+
+\dish[%
+	name={Fanta},
+	price={3.90},
+	serving size/show=true,
+	serving size={0.5},
+	serving size/unit={\litre}
+]
+
+\dish[%
+	name={Sprite},
+	price={3.90},
+	serving size/show=true,
+	serving size={0.5},
+	serving size/unit={\litre}
+]
+
+\dish[%
+	name={Frucade},
+	price={3.40},
+	serving size/show=true,
+	serving size={0.5},
+	serving size/unit={\litre}
+]
+
+\dish[%
+	name={Almdudler},
+	price={3.50},
+	serving size/show=true,
+	serving size={0.5},
+	serving size/unit={\litre}
+]
+
+\end{document}
