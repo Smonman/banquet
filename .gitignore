@@ -282,3 +282,5 @@ TSWLatexianTemp*
 *.bat
 releases/
 out/
+
+(todo|TODO).txt
