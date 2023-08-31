@@ -277,10 +277,11 @@ TSWLatexianTemp*
 *.lpz
 
 # release
-
 *.zip
 *.bat
 releases/
 out/
 
+# development
 (todo|TODO).txt
+test.tex
