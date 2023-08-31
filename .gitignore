@@ -283,5 +283,6 @@ releases/
 out/
 
 # development
-(todo|TODO).txt
+todo.txt
+TODO.txt
 test.tex
