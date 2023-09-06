@@ -220,7 +220,7 @@
 }
 
 % create and print a new dish
-\newcommand{\dish}[1][]{%
+\newcommand{\bqdish}[1][]{%
 	\begingroup%
 	\pgfkeys{/banquet/dish/current/.cd,#1}%
 	\par\noindent%
