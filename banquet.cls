@@ -23,6 +23,7 @@
 \RequirePackage{titlesec}
 \RequirePackage{titling}
 \RequirePackage{fancyhdr}
+\RequirePackage{xstring}
 
 %
 % key setup
@@ -43,6 +44,10 @@
 \newif\ifbqshowbadge
 \newif\ifbqshowservingsize
 \newif\ifbqshowservingsizeunit
+\newif\ifbqshowprefix
+\newif\ifbqusesectionprefix
+\newif\ifbqshownumberingmajor
+\newif\ifbqshownumberingminor
 
 % general keys
 \pgfkeys{%
@@ -63,17 +68,25 @@
 	price/currency symbol={},
 	price/currency symbol/show/.is if=bqshowcurrencysymbol,
 	ingredients/delimiter/.store in=\bqingredientsdelimiter,
-	ingredients/delimiter={,\;},
+	ingredients/delimiter={,\bqprintstandardspace},
 	allergens/show/.is if=bqshowallergens,
 	allergens/show=true,
 	allergens/delimiter/.store in=\bqallergensdelimiter,
-	allergens/delimiter={,\;},
+	allergens/delimiter={,\bqprintstandardspace},
 	badge/show/.is if=bqshowbadge,
 	badge/show=false,
 	fill/show/.is if=bqshowfill,
 	fill/show=true,
 	fill/symbol/.store in=\bqfillsymbol,
-	fill/symbol={.}
+	fill/symbol={.},
+	prefix/show/.is if=bqshowprefix,
+	prefix/show=false,
+	prefix/use section/.is if=bqusesectionprefix,
+	numbering/major/show/.is if=bqshownumberingmajor,
+	numbering/major/show=false,
+	numbering/major/.code=\setcounter{bqmajor}{#1},
+	numbering/minor/show/.is if=bqshownumberingminor,
+	numbering/minor/show=false,
 }
 
 % dish specific keys
@@ -105,7 +118,10 @@
 	serving size/show=false,
 	serving size/unit/.store in=\bqservingsizeunit,
 	serving size/unit/show/.is if=bqshowservingsizeunit,
-	serving size/unit/show=true
+	serving size/unit/show=true,
+	prefix/.store in=\bqprefix,
+	prefix={},
+	numbering/minor/.code=\setcounter{bqminor}{#1},
 }
 
 %
@@ -161,6 +177,10 @@
 % set for for units and numbers
 \sisetup{mode=text}%
 
+% setup counters
+\newcounter{bqmajor}
+\newcounter{bqminor}[bqmajor]
+
 %
 % Commands
 %
@@ -168,6 +188,30 @@
 % a reference for the dollar
 \newcommand{\dollar}{%
 	\$%
+}
+
+% the current section
+\newcommand{\bqcurrentsection}[1]{%
+	#1%
+}
+
+% gets the first letter
+\newcommand{\bqextractfirstletter}[1]{%
+	\StrRemoveBraces{#1}[\firstletter]%
+	\StrChar{\firstletter}{1}[\firstletter]%
+	\edef\bqprintfirstletter{\firstletter}%
+}
+
+% section command that increments the major counter
+\newcommand{\bqsection}[1]{%
+	\section{#1}%
+	\stepcounter{bqmajor}%
+	\renewcommand{\bqcurrentsection}{#1}%
+}
+
+% prints a standard space
+\newcommand{\bqprintstandardspace}{%
+	\;%
 }
 
 % set keys for the whole document
@@ -184,15 +228,19 @@
 	\bqprintdish%
 	\vskip \bqdishpaddingbottom%
 	\endgroup%
+	\stepcounter{bqminor}%
 }
 
 % prints the current dish
 \newcommand{\bqprintdish}{%
+	\begingroup%
 	\noindent%
-	\begin{tabularx}{\columnwidth}{@{}l@{}X@{}l@{}r@{}}
-		\bqprintname\bqprintallergens\bqprintbadges & {\bqprintfill} & \bqprintservingsize & \bqprintprice
+	\setlength{\tabcolsep}{0pt}%
+	\begin{tabularx}{\columnwidth}{lrrlXlr}%
+		\bqprintprefix & \bqprintnumberingmajor & \bqprintnumberingminor & \bqprintname\bqprintallergens\bqprintbadges & {\bqprintfill} & \bqprintservingsize & \bqprintprice %
 	\end{tabularx}%
 	\bqprintingredients%
+	\endgroup%
 }
 
 % print the name of the current dish
@@ -425,7 +473,7 @@
 % dish
 \newcommand{\bqprintcurrencysymbol}{%
 	\ifbqshowcurrencysymbol%
-		{\bqcurrencysymbol\;}%
+		{\bqcurrencysymbol\bqprintstandardspace}%
 	\else%nothing
 	\fi%
 }
@@ -455,42 +503,42 @@
 % prints the organic badge
 \newcommand{\bqprintorganic}{%
 	\ifbqorganic%
-		\;\textit{organic}%
+		\bqprintstandardspace\textit{organic}%
 	\fi%
 }
 
 % prints the vegetarian badge
 \newcommand{\bqprintvegetarian}{%
 	\ifbqvegetarian%
-		\;\textit{vegetarian}%
+		\bqprintstandardspace\textit{vegetarian}%
 	\fi%
 }
 
 % prints the vegan badge
 \newcommand{\bqprintvegan}{%
 	\ifbqvegan%
-		\;\textit{vegan}%
+		\bqprintstandardspace\textit{vegan}%
 	\fi%
 }
 
 % prints the halal badge
 \newcommand{\bqprinthalal}{%
 	\ifbqhalal%
-		\;\textit{halal}%
+		\bqprintstandardspace\textit{halal}%
 	\fi%
 }
 
 % prints the kosher badge
 \newcommand{\bqprintkosher}{%
 	\ifbqkosher%
-		\;\textit{kosher}%
+		\bqprintstandardspace\textit{kosher}%
 	\fi%
 }
 
 % prints the gluten free bade
 \newcommand{\bqprintglutenfree}{%
 	\ifbqglutenfree%
-		\;\textit{gluten free}%
+		\bqprintstandardspace\textit{gluten free}%
 	\fi%
 }
 
@@ -505,5 +553,41 @@
 
 % prints a spacing if the given parameter is not {}
 \newcommand{\bqprintspacingifnotempty}[1]{%
-	\bqprintifnotempty{#1}{\;}%
+	\bqprintifnotempty{#1}{\bqprintstandardspace}%
+}
+
+% prints the prefix
+\newcommand{\bqprintprefix}{%
+	\ifbqshowprefix%
+		\ifbqusesectionprefix%
+			\bqprintsectionprefix%
+		\else%
+			\bqprefix%
+			\bqprintspacingifnotempty{\bqprefix}%
+		\fi%
+	\fi%
+}
+
+% prints the section prefix
+\newcommand{\bqprintsectionprefix}{%
+	\if\relax\bqcurrentsection\relax%
+	\else%
+		\bqextractfirstletter{\expandafter\bqcurrentsection}%
+		\MakeUppercase{\bqprintfirstletter}%
+		\bqprintstandardspace%
+	\fi%
+}
+
+% print major numbering
+\newcommand{\bqprintnumberingmajor}{%
+	\ifbqshownumberingmajor
+		\thebqmajor\bqprintstandardspace%
+	\fi%
+}
+
+% print minor numbering
+\newcommand{\bqprintnumberingminor}{%
+	\ifbqshownumberingminor
+		\thebqminor\bqprintstandardspace%
+	\fi%
 }
