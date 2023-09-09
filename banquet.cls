@@ -191,9 +191,7 @@
 }
 
 % the current section
-\newcommand{\bqcurrentsection}[1]{%
-	#1%
-}
+\newcommand{\bqcurrentsection}{}%
 
 % gets the first letter
 \newcommand{\bqextractfirstletter}[1]{%
@@ -205,8 +203,8 @@
 % section command that increments the major counter
 \newcommand{\bqsection}[1]{%
 	\section{#1}%
-	\stepcounter{bqmajor}%
 	\renewcommand{\bqcurrentsection}{#1}%
+	\stepcounter{bqmajor}%
 }
 
 % prints a standard space
@@ -224,9 +222,9 @@
 	\begingroup%
 	\pgfkeys{/banquet/dish/current/.cd,#1}%
 	\par\noindent%
-	\vskip \bqdishpaddingtop%
+	\vskip\bqdishpaddingtop%
 	\bqprintdish%
-	\vskip \bqdishpaddingbottom%
+	\vskip\bqdishpaddingbottom%
 	\endgroup%
 	\stepcounter{bqminor}%
 }
@@ -237,7 +235,7 @@
 	\noindent%
 	\setlength{\tabcolsep}{0pt}%
 	\begin{tabularx}{\columnwidth}{lrrlXlr}%
-		\bqprintprefix & \bqprintnumberingmajor & \bqprintnumberingminor & \bqprintname\bqprintallergens\bqprintbadges & {\bqprintfill} & \bqprintservingsize & \bqprintprice %
+		\bqprintprefix & \bqprintnumberingmajor & \bqprintnumberingminor & \bqprintname\bqprintallergens\bqprintbadges & \bqprintfill & \bqprintservingsize & \bqprintprice %
 	\end{tabularx}%
 	\bqprintingredients%
 	\endgroup%
@@ -474,7 +472,6 @@
 \newcommand{\bqprintcurrencysymbol}{%
 	\ifbqshowcurrencysymbol%
 		{\bqcurrencysymbol\bqprintstandardspace}%
-	\else%nothing
 	\fi%
 }
 
@@ -484,7 +481,6 @@
 		\bqfillsymbol%
 		\unskip\nobreak\leaders\hbox{\bqfillsymbol}\hfill\relax%
 		\null%
-	\else%nothing
 	\fi%
 }
 
