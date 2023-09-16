@@ -283,6 +283,7 @@ releases/
 out/
 
 # development
+dev/
 TODO.txt
 test.tex
 index.tex
