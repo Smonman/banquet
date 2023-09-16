@@ -181,6 +181,10 @@
 \newcounter{bqmajor}
 \newcounter{bqminor}[bqmajor]
 
+% default language
+\selectlanguage{english}
+\sisetup{locale=US}
+
 %
 % Commands
 %
